@@ -97,8 +97,9 @@ public class MainActivity extends Activity {
         };
         
  	   builder = new AlertDialog.Builder(this);
-   	   builder.setMessage("Do you want to delete this item?").setPositiveButton("Yes", dialogClickListener)
-   	      .setNegativeButton("No", dialogClickListener);
+   	   builder.setMessage("Do you want to delete this item?");
+   	   builder.setPositiveButton("Yes", dialogClickListener);
+   	   builder.setNegativeButton("No", dialogClickListener);
         
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
