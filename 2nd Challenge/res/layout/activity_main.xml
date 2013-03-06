@@ -28,7 +28,7 @@
         
 
 
-    <ListView
+    <com.example.nd.challenge.MyListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         
         android:layout_centerHorizontal="true"
          >
-    </ListView>
+    </com.example.nd.challenge.MyListView>
 
 
 

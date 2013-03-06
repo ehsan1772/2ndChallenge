@@ -36,12 +36,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements EarthquakeEliminator, MyListViewOwner{
 
 	Equake[] testq;
 	List<Equake> lquake;
 	List<Equake> temp;
 	ListView lv;
+	MyListView myListView;
 	ProgressBar pbar;
 	DataLoader dloader;
 	Myadapter myadapter;
@@ -64,17 +65,19 @@ public class MainActivity extends Activity {
 
         
         lv = (ListView) findViewById(R.id.listView1);
-        
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        	   public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-        	      Equake thequake = lquake.get(position);
-        	    //  myadapter.remove(thequake);
-        			Intent intent = new Intent(Intent.ACTION_VIEW);
-        			intent.setData(Uri.parse(thequake.getLink()));
-        			startActivity(intent);
-        	   } 
-        	
-		});
+        myListView = (MyListView) findViewById(R.id.listView1);
+
+        myListView.setTheOwner(this);
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        	   public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+//        	      Equake thequake = lquake.get(position);
+//        	    //  myadapter.remove(thequake);
+//        			Intent intent = new Intent(Intent.ACTION_VIEW);
+//        			intent.setData(Uri.parse(thequake.getLink()));
+//        			startActivity(intent);
+//        	   } 
+//        	
+//		});
         
 
        	   
@@ -101,20 +104,19 @@ public class MainActivity extends Activity {
    	   builder.setPositiveButton("Yes", dialogClickListener);
    	   builder.setNegativeButton("No", dialogClickListener);
         
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-      	      deleteposition = arg2;
-      	      builder.show();
-
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-
-        	
-		});
+//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//
+//			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//      	      deleteposition = arg2;
+//      	      builder.show();
+//
+//				// TODO Auto-generated method stub
+//				return false;
+//			}
+//
+//
+//        	
+//		});
         
         
 
@@ -156,7 +158,10 @@ public class MainActivity extends Activity {
 		button.setOnClickListener(l);
     }
 
-
+public Equake getQuake(int position){
+    Equake theQuake = lquake.get(position);
+    return theQuake;
+}
     
 	public boolean isOnline() {
 	    ConnectivityManager cm =
@@ -277,4 +282,20 @@ public class MainActivity extends Activity {
 
 
     }
+
+	public void eliminateEarthquake(int number) {
+		// TODO Auto-generated method stub
+		myadapter.remove(lquake.get(number));
+	}
+
+	public Object getClickedItem(int position) {
+	    Equake theQuake = lquake.get(position);
+	    return theQuake;
+	}
+
+	public void deleteClickedItem(int position) {
+		// TODO Auto-generated method stub
+		Log.d("Position", String.valueOf(position));
+		myadapter.remove(lquake.get(position));
+	}
 }
