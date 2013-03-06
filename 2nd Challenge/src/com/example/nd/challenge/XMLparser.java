@@ -15,19 +15,7 @@ public class XMLparser extends DefaultHandler{
 	StringBuffer content;
 	List<Equake> quakes;
 	Equake quake;
-	// elementstatus map:
-	// item  = 1
-	// title = 2
-	// description = 3
-	// link = 4
-	// pubDate = 5
-	// geo:lat = 6
-	// geo:long = 7
-	// dc:subject = 8
-	// eq:seconds = 9
-	// eq:depth = 10
-	// eq:region = 11
-	// channel = 12
+
 	
 	XMLparser()
 	{
