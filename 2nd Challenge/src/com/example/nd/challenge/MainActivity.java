@@ -1,41 +1,43 @@
 package com.example.nd.challenge;
 
 import java.util.List;
-
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements EarthquakeEliminator, MyListViewOwner, MyXMLDataLoaderOwner, OnClickListener{
+/**
+ * This is the main activity that is used in this app
+ * 
+ * @author Ehsan Barekati
+ *
+ */
+public class MainActivity extends Activity implements MyListViewOwner, MyXMLDataLoaderOwner, OnClickListener{
 
-	private Equake[] testq;
 	private List<Equake> lquake;
 	private List<Equake> temp;
-	private ListView lv;
 	private MyListView myListView;
 	private ProgressBar pbar;
-	private DataLoader dloader;
-	private Myadapter myadapter;
-	private AlertDialog.Builder builder;
-	private DialogInterface.OnClickListener dialogClickListener;
-	private int deleteposition;
+	private MyAdapter myadapter;
 	private TextView tv;
 	private Button refreshButton;
 	
+	/**
+	 * The onCreate method registers all the views and set the necessary parameters on them.
+	 * It also invokes the loadData() method to load the earthquakes.
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+
         setContentView(R.layout.activity_main);
         
         refreshButton = (Button) findViewById(R.id.button1);
@@ -47,10 +49,12 @@ public class MainActivity extends Activity implements EarthquakeEliminator, MyLi
         pbar.setVisibility(View.INVISIBLE);
         
         myListView.setTheOwner(this);     
-        
         refreshButton.setOnClickListener(this);
+
         loadData();
+        
     }
+
 
 	public Equake getQuake(int position){
 	    Equake theQuake = lquake.get(position);
@@ -67,12 +71,6 @@ public class MainActivity extends Activity implements EarthquakeEliminator, MyLi
 	    return false;
 	}
     
-
-
-	public void eliminateEarthquake(int number) {
-		// TODO Auto-generated method stub
-		myadapter.remove(lquake.get(number));
-	}
 
 	public Object getClickedItem(int position) {
 	    Equake theQuake = lquake.get(position);
@@ -101,7 +99,7 @@ public class MainActivity extends Activity implements EarthquakeEliminator, MyLi
 		}
 		lquake = result;
 		temp = lquake;
-        myadapter = new Myadapter(getBaseContext(), R.layout.customlayout, result);
+        myadapter = new MyAdapter(getBaseContext(), R.layout.customlayout, result);
         myListView.setAdapter(myadapter);
         pbar.setVisibility(View.INVISIBLE);
 		
@@ -127,7 +125,6 @@ public class MainActivity extends Activity implements EarthquakeEliminator, MyLi
 	}
 
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		loadData();
 	}
 }

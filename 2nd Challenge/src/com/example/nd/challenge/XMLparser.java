@@ -32,7 +32,7 @@ public class XMLparser extends DefaultHandler{
 			throws SAXException {
 		// TODO Auto-generated method stub
 		content.append(ch, start, length);
-//		super.characters(ch, start, length);
+
 	}
 
 
@@ -134,7 +134,7 @@ public class XMLparser extends DefaultHandler{
 		
 		if (qName == "eq:region")
 			elementstatus = 11;
-//		super.startElement(uri, localName, qName, attributes);
+
 	}
 
 }
