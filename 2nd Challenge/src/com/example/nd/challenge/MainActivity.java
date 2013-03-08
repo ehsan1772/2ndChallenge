@@ -1,5 +1,6 @@
 package com.example.nd.challenge;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -56,33 +57,30 @@ public class MainActivity extends Activity implements MyListViewOwner, MyXMLData
     }
 
 
-	public Equake getQuake(int position){
-	    Equake theQuake = lquake.get(position);
-	    return theQuake;
-	}
     
-	public boolean isOnline() {
-	    ConnectivityManager cm =
-	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-	        return true;
-	    }
-	    return false;
-	}
-    
-
+    /**
+     * This method is part of the MyListViewOwner interface
+     * @return The object related to the view that was clicked
+     */
 	public Object getClickedItem(int position) {
 	    Equake theQuake = lquake.get(position);
 	    return theQuake;
 	}
 
+	/**
+	 * This method is part of the MyListViewOwner interface 
+	 * and gets invoked by the ListView to delete the clicked item
+	 */
 	public void deleteClickedItem(int position) {
 		// TODO Auto-generated method stub
 		Log.d("Position", String.valueOf(position));
 		myadapter.remove(lquake.get(position));
 	}
 
+	/**
+	 * This method gets invoked by the MyXMLLoader class to return the results 
+	 * and is part of the MyXMLLoaderOwner interface
+	 */
 	public void onPostXMLLoaderExecute(Object objectResult) {
 		
 		List<Equake> result = (List<Equake>) objectResult;
@@ -102,28 +100,45 @@ public class MainActivity extends Activity implements MyListViewOwner, MyXMLData
         myadapter = new MyAdapter(getBaseContext(), R.layout.customlayout, result);
         myListView.setAdapter(myadapter);
         pbar.setVisibility(View.INVISIBLE);
+        refreshButton.setText("Refresh");
 		
 	}
 
+	/**
+	 * 
+	 */
 	public void onPreXMLLoaderExecute() {
 		pbar.setVisibility(View.VISIBLE);
-		
+        refreshButton.setText("");
 	}
+	
+	/**
+	 * This method gets invoked at the end of the onCreate method to load the XML file
+	 */
 	private void loadData(){
-        if (isOnline())
+		MyDownloadManager myDownloadManager = new MyDownloadManager(this, this);
+        if (MyNetworkManager.isOnline(this))
         {
         tv.setVisibility(View.INVISIBLE);
-        MyXMLDataLoader myXMLDateLoader = new MyXMLDataLoader(this);
-        myXMLDateLoader.execute(new String[]{"http://earthquake.usgs.gov/earthquakes/shakemap/rss.xml"});
+        myDownloadManager.download("http://earthquake.usgs.gov/earthquakes/shakemap/rss.xml");
+
         }
         else
         {
-            tv.setVisibility(View.VISIBLE);
-            if (myadapter != null)
-            myadapter.clear();
+        	try {
+				myDownloadManager.loadSavedInputStream();
+			} catch (FileNotFoundException e) {
+	            tv.setVisibility(View.VISIBLE);
+	            if (myadapter != null)
+	            myadapter.clear();
+			}
+
         }
 	}
 
+	/**
+	 * 
+	 */
 	public void onClick(View v) {
 		loadData();
 	}

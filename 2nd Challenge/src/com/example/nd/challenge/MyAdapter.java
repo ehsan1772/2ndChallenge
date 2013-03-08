@@ -10,16 +10,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * This class is an ArrayAdapter and implements the ViewHolder pattern
+ * @author Ehsan Barekati
+ *
+ */
 public class MyAdapter extends ArrayAdapter<Equake>{
 	
-	Equake[] quakes;
-	List<Equake> lquake;
-	Context context;
-	Equake quake;
+	private Equake[] quakes;
+	private List<Equake> lquake;
+	private Context context;
+	private Equake quake;
 	static final int WHITE = Color.argb(256, 0, 0, 0);
 	static final int DARK_RED = Color.argb(150, 200, 0, 0);
 	static final int LIGHT_RED = Color.argb(150, 150, 0, 0);
 
+	/**
+	 * The constructor that takes arrays
+	 * @param context the context of the activity that uses this class
+	 * @param textViewResourceId
+	 * @param objects An array of Equakes that is used in creating the views
+	 */
 	public MyAdapter(Context context, int textViewResourceId, Equake[] objects) {
 		super(context, textViewResourceId, objects);
 		quakes = objects;
@@ -27,7 +38,12 @@ public class MyAdapter extends ArrayAdapter<Equake>{
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	/**
+	 * The constructor that takes lists
+	 * @param context the context of the activity that uses this class
+	 * @param textViewResourceId
+	 * @param objects An array of Equakes that is used in creating the views
+	 */
 	public MyAdapter(Context context, int textViewResourceId, List<Equake> objects) {
 		super(context, textViewResourceId, objects);
 		lquake = objects;
@@ -36,11 +52,12 @@ public class MyAdapter extends ArrayAdapter<Equake>{
 	}
 
 
+	/**
+	 * 
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-//		Equake quake = quakes[position];
-		
+
 		EquakesViewHolder viewHolder;
 		
 		quake = lquake.get(position);
@@ -91,10 +108,12 @@ public class MyAdapter extends ArrayAdapter<Equake>{
 		
 	}
 
-
-
-
-	static class EquakesViewHolder {
+/**
+ * A private class the is used as a view holder
+ * @author Ehsan Barekati
+ *
+ */
+	private class EquakesViewHolder {
 		TextView title;
 		TextView longi;
 		TextView lat;

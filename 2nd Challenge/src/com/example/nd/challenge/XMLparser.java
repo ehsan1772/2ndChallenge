@@ -9,13 +9,18 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
+/**
+ * This class extends DefaultHandler nd converts the XML tags to the Equake instances
+ * 
+ * @author Ehsan Barekati
+ *
+ */
 public class XMLparser extends DefaultHandler{
 	
-	int elementstatus = 0;
-	StringBuffer content;
-	List<Equake> quakes;
-	Equake quake;
-
+	private int elementstatus = 0;
+	private StringBuffer content;
+	private List<Equake> quakes;
+	private Equake quake;
 	
 	XMLparser()
 	{
@@ -28,11 +33,8 @@ public class XMLparser extends DefaultHandler{
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
-		// TODO Auto-generated method stub
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		content.append(ch, start, length);
-
 	}
 
 
@@ -95,7 +97,6 @@ public class XMLparser extends DefaultHandler{
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		// TODO Auto-generated method stub
 		
 		content = new StringBuffer();
 		
